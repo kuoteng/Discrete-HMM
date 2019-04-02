@@ -73,7 +73,7 @@ _deps
 *-prefix/
 
 # End of https://www.gitignore.io/api/c,cmake
-!models/
+!c_cpp.results/
 *.txt
 !modellist.txt
 !model_01.txt
@@ -81,7 +81,7 @@ _deps
 !model_03.txt
 !model_04.txt
 !model_05.txt
-!result1.txt 
+!result1.txt
 !result2.txt
 !acc.txt
 !model_init.txt

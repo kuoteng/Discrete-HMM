@@ -2,7 +2,7 @@
 * student ID: R07922009
 * name: kuoteng ding
 * compile:
-* execute: 
+* execute:
 * style with astyle:
     --style=linux --indent=spaces --convert-tabs --lineend=linux --formatted --recursive --max-code-length=80
 * description:
@@ -17,7 +17,8 @@
 #include "hmm.h"
 
 #define MAX_HMM 30
-const double eps =  1e-8;
+#define MAX_FILENAME 100
+const double eps = 1e-8;
 
 int main(int argc, char *argv[])
 {
@@ -29,7 +30,7 @@ int main(int argc, char *argv[])
     }
     HMM load_hmms[MAX_HMM];
     int load_num;
-    load_num = load_models(argv[1], load_hmms, MAX_HMM); //5??? TODO:ask TA
+    load_num = load_models(argv[1], load_hmms, MAX_HMM);
     FILE *modellist = NULL;
     // if ((modellist = fopen(argv[2], "r")) == NULL) {
     //     printf("ERROR: can't read the modellist data %s", argv[2]);
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
     // }
     modellist = open_or_die(argv[1], "r");
     int trace = 0;
-    char model_name_list[MAX_HMM][100000]; //row major
+    char model_name_list[MAX_HMM][MAX_FILENAME]; //row major
     memset(model_name_list[0], 0, sizeof(model_name_list[0]));
     // while (fgets(model_name_list[trace], sizeof(model_name_list[trace]),
     //              modellist)) {
@@ -64,14 +65,18 @@ int main(int argc, char *argv[])
     //     printf("ERROR: can't write the model data %s", argv[3]);
     //     exit(1);
     // }
-    // while(fgets(input, sizeof(input), test_data)) {
-    int updatetime = 0;
-    while (fscanf(test_data, "%s", y)==1) {
+    FILE *answer_file = NULL;
+    if ((answer_file = fopen("testing_answer.txt", "r")) == NULL) {
+        printf("ERROR: can't read the testing answer file");
+        exit(1);
+    }
+    char answer_str[MAX_SEQ];
+    int update_time = 0;
+    int hit_time = 0;
+    //for script
+    char tmp_str[MAX_SEQ];
+    while (fscanf(test_data, "%s", y) == 1) {
         int T = strlen(y);
-        if(updatetime++ == 0) {
-        printf("line:%s\n",y);
-
-        }
         double final_max = 0.0;
         int final_model = -1;
         memset(delta, 0, sizeof(delta));
@@ -79,7 +84,6 @@ int main(int argc, char *argv[])
             for (int i = 0; i < load_hmms[hmm_index].state_num; i++) {
                 delta[0][i] = load_hmms[hmm_index].initial[i] *
                               load_hmms[hmm_index].observation[y[0] - 'A'][i];
-                // printf("a = %lf\n",delta[0][i]);
             }
             double tmp;
             double max;
@@ -88,7 +92,7 @@ int main(int argc, char *argv[])
                     delta[t][j] = 0.0;
                     for (int i = 0; i < load_hmms[hmm_index].state_num; i++) {
                         tmp = delta[t - 1][i] * load_hmms[hmm_index].transition[i][j];
-                        if ( tmp > delta[t][j]) {
+                        if (tmp > delta[t][j]) {
                             delta[t][j] = tmp;
                         }
                     }
@@ -110,14 +114,29 @@ int main(int argc, char *argv[])
             printf("the recursive procedure failed\n");
             exit(1);
         }
-        // fprintf(stdout, "%s\t%lf\n", model_name_list[final_model], final_max);
-        fprintf(w, "%s\t%lf\n", model_name_list[final_model], final_max);
+        fprintf(w, "%s\t%e\n", model_name_list[final_model], final_max);
+        memset(answer_str, 0, sizeof(answer_str));
+        memset(tmp_str, 0, sizeof(tmp_str));
+        if (fscanf(answer_file, "%s", answer_str) == 1) {
+            sprintf(tmp_str, "model_0%d.txt", final_model+1);
+            if (strcmp(answer_str, tmp_str) == 0) {
+                // if (strcmp(answer_str, model_name_list[final_model]) == 0) {
+                hit_time++;
+            }
+        } else {
+            printf("WRONG LINE: answer_file can't match the right line number\n");
+            exit(1);
+        }
+        update_time++;
     }
-
-    /*FILE *fpwa = open_or_die( "acc.txt", "w");
-    fprintf(fpwa, "%f", (float)hit / (float)data_count);
-    fclose(fpa);
-    fclose(fpwa);*/
+    fclose(w);
+    char acc_str[MAX_FILENAME + 5];
+    strcpy(acc_str, model_name_list[0]);
+    strcat(acc_str, "-acc.txt");
+    FILE *acc_file = open_or_die(acc_str, "w");
+    fprintf(acc_file, "%lf", (double)hit_time / (double)update_time);
+    printf("acc = %lf\n", (double)hit_time / (double)update_time);
+    fclose(acc_file);
 
     //V_{1,k}&=&\mathrm {P} {\big (}y_{1}\ |\ k{\big )}\cdot \pi _{k}
     //V_{t,k}&=&\max _{x\in S}\left(\mathrm {P} {\big (}y_{t}\ |\ k{\big )}\cdot a_{x,k}\cdot V_{t-1,x}\right)
