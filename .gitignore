@@ -73,8 +73,8 @@ dkms.conf
 *-prefix/
 
 # End of https://www.gitignore.io/api/c,cmake
-!c_cpp.results/
 *.txt
+!c_cpp/results/*
 !modellist.txt
 !model_01.txt
 !model_02.txt
