@@ -1,14 +1,14 @@
 /***********************************
 * student ID: R07922009
 * name: kuoteng ding
-* compile:
-* execute:
+* compile: gcc -O3 -o train train.c
+* execute: /test modellist.txt testing_data.txt result.txt
 * style with astyle:
     --style=linux --indent=spaces --convert-tabs --lineend=linux --formatted --recursive --max-code-length=80
 * description:
 * sample output:
 * sample output:
-* last edited date:2019/04/02
+* last edited date:2019/04/03
 *************************************/
 
 #include <stdio.h>
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     int update_time = 0;
     int hit_time = 0;
     //for script
-    char tmp_str[MAX_SEQ];
+    // char tmp_str[MAX_SEQ];
     while (fscanf(test_data, "%s", y) == 1) {
         int T = strlen(y);
         double final_max = 0.0;
@@ -116,11 +116,11 @@ int main(int argc, char *argv[])
         }
         fprintf(w, "%s\t%e\n", model_name_list[final_model], final_max);
         memset(answer_str, 0, sizeof(answer_str));
-        memset(tmp_str, 0, sizeof(tmp_str));
+        // memset(tmp_str, 0, sizeof(tmp_str));
         if (fscanf(answer_file, "%s", answer_str) == 1) {
-            sprintf(tmp_str, "model_0%d.txt", final_model+1);
-            if (strcmp(answer_str, tmp_str) == 0) {
-                // if (strcmp(answer_str, model_name_list[final_model]) == 0) {
+            // sprintf(tmp_str, "model_0%d.txt", final_model+1);
+            // if (strcmp(answer_str, tmp_str) == 0) {
+            if (strcmp(answer_str, model_name_list[final_model]) == 0) {
                 hit_time++;
             }
         } else {
@@ -130,13 +130,13 @@ int main(int argc, char *argv[])
         update_time++;
     }
     fclose(w);
-    char acc_str[MAX_FILENAME + 5];
-    strcpy(acc_str, model_name_list[0]);
-    strcat(acc_str, "-acc.txt");
-    FILE *acc_file = open_or_die(acc_str, "w");
-    fprintf(acc_file, "%lf", (double)hit_time / (double)update_time);
-    printf("acc = %lf\n", (double)hit_time / (double)update_time);
-    fclose(acc_file);
+    // char acc_str[MAX_FILENAME + 5];
+    // strcpy(acc_str, model_name_list[0]);
+    // strcat(acc_str, "-acc.txt");
+    // FILE *acc_file = open_or_die(acc_str, "w");
+    // fprintf(acc_file, "%lf", (double)hit_time / (double)update_time);
+    // printf("acc = %lf\n", (double)hit_time / (double)update_time);
+    // fclose(acc_file);
 
     //V_{1,k}&=&\mathrm {P} {\big (}y_{1}\ |\ k{\big )}\cdot \pi _{k}
     //V_{t,k}&=&\max _{x\in S}\left(\mathrm {P} {\big (}y_{t}\ |\ k{\big )}\cdot a_{x,k}\cdot V_{t-1,x}\right)

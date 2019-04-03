@@ -1,14 +1,14 @@
 /***********************************
 * student ID: R07922009
 * name: kuoteng ding
-* compile:
-* execute:
+* compile: gcc -O3 -o train train.c
+* execute: ./train iteration model_init.txt seq_model_01.txt model_01.txt
 * style with astyle:
     --style=linux --indent=spaces --convert-tabs --lineend=linux --formatted --recursive --max-code-length=80
 * description:
 * sample output:
 * sample output:
-* last edited date:2019/04/02
+* last edited date:2019/04/03
 *************************************/
 
 #include <stdio.h>
