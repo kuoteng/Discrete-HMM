@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
         }
         for (int i = 0; i < hmm.state_num; i++) {
             for (int v_k = 0; v_k < hmm.observ_num; v_k++) {
-                hmm.observation[v_k][i] = sum_condition_gamma[v_k][i] / sum_gamma[i];
+                hmm.observation[v_k][i] = [v_k][i] / sum_gamma[i];
             }
         }
 
