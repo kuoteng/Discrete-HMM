@@ -8,7 +8,7 @@
 * description:
 * sample output:
 * sample output:
-* last edited date:2019/04/03
+* last edited date:2019/04/04
 *************************************/
 
 #include <stdio.h>
@@ -52,25 +52,17 @@ int main(int argc, char *argv[])
     printf("--------------\nyou have loaded %d models\n", load_num);
     FILE *test_data = NULL;
     test_data = open_or_die(argv[2], "r");
-    // if ((test_data = fopen(argv[2], "r")) == NULL) {
-    //     printf("ERROR: can't read the modellist data %s", argv[2]);
-    //     exit(1);
-    // }
     char y[MAX_SEQ];
     memset(y, 0, sizeof(y));
     double delta[MAX_SEQ][MAX_STATE];
     FILE *w = NULL;
     w = open_or_die(argv[3], "w");
-    // if ((w = fopen(argv[3], "w")) == NULL) {
-    //     printf("ERROR: can't write the model data %s", argv[3]);
-    //     exit(1);
-    // }
     FILE *answer_file = NULL;
     if ((answer_file = fopen("testing_answer.txt", "r")) == NULL) {
         printf("ERROR: can't read the testing answer file");
         exit(1);
     }
-    char answer_str[MAX_SEQ];
+    // char answer_str[MAX_SEQ];
     int update_time = 0;
     int hit_time = 0;
     //for script
@@ -115,18 +107,18 @@ int main(int argc, char *argv[])
             exit(1);
         }
         fprintf(w, "%s\t%e\n", model_name_list[final_model], final_max);
-        memset(answer_str, 0, sizeof(answer_str));
-        // memset(tmp_str, 0, sizeof(tmp_str));
-        if (fscanf(answer_file, "%s", answer_str) == 1) {
-            // sprintf(tmp_str, "model_0%d.txt", final_model+1);
-            // if (strcmp(answer_str, tmp_str) == 0) {
-            if (strcmp(answer_str, model_name_list[final_model]) == 0) {
-                hit_time++;
-            }
-        } else {
-            printf("WRONG LINE: answer_file can't match the right line number\n");
-            exit(1);
-        }
+        // memset(answer_str, 0, sizeof(answer_str));
+        // // memset(tmp_str, 0, sizeof(tmp_str));
+        // if (fscanf(answer_file, "%s", answer_str) == 1) {
+        //     // sprintf(tmp_str, "model_0%d.txt", final_model+1);
+        //     // if (strcmp(answer_str, tmp_str) == 0) {
+        //     if (strcmp(answer_str, model_name_list[final_model]) == 0) {
+        //         hit_time++;
+        //     }
+        // } else {
+        //     printf("WRONG LINE: answer_file can't match the right line number\n");
+        //     exit(1);
+        // }
         update_time++;
     }
     fclose(w);
