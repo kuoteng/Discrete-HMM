@@ -399,8 +399,8 @@ blockquote {
 <ol start="2">
 <li>execute</li>
 </ol>
-<pre class="hljs"><code><div>$ ./train 10 model_init.txt seq_model_05.txt ./results/model_05.txt
-$ ./<span class="hljs-built_in">test</span> ./results/modellist.txt testing_data1.txt result1.txt
+<pre class="hljs"><code><div>$ ./train 10 model_init.txt seq_model_05.txt model_05.txt
+$ ./<span class="hljs-built_in">test</span> modellist.txt testing_data1.txt result1.txt
 </div></code></pre>
 <h2 id="%E5%9F%B7%E8%A1%8C%E7%92%B0%E5%A2%83">執行環境</h2>
 <p>執行環境為 NTU CSIE 的工作站，詳細的環境如下</p>
@@ -424,7 +424,7 @@ gcc: gcc version 8.2.1 20181127
 <p>可以看出，訓練次數 50 次後的模型表現趨於穩定，我最後選用訓練 1126 次的模型作為我這次作業的結果</p>
 <br>
 <br>
-<brs>
+<br>
 <table>
 <thead>
 <tr>

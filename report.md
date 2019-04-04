@@ -11,8 +11,8 @@ $ make
 
 2. execute
 ```sh
-$ ./train 10 model_init.txt seq_model_05.txt ./results/model_05.txt
-$ ./test ./results/modellist.txt testing_data1.txt result1.txt
+$ ./train 10 model_init.txt seq_model_05.txt model_05.txt
+$ ./test modellist.txt testing_data1.txt result1.txt
 ```
 
 ## 執行環境
